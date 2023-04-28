@@ -1,0 +1,136 @@
+{% extends "layout.html "%}
+{% block content %}
+<body style=" background: wheat;">
+  <legend style="color:black; text-align: right">Hello Mate!</legend> 
+  <div class="container">
+    <div>
+      <div class="col md-12">
+        <h2 >Employee List <button class="btn btn-primary float-right" data-toggle="modal" data-target="#myModal">Add Employee</button></h2>
+      </div>
+    </div>
+    </div>
+  <div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title text-primary" style="align-content: center;">Please Add New Employee</h5>    
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+
+    <div class="modal-body">            
+      <form action="{{ url_for('insert')}}" method="POST">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" name="NAME" class="form-control" id="exampleFormControlInput1" placeholder="Enter Full Name">
+        </div>
+
+        <div class="form-group">
+          <label>BIRTHDAY</label>
+          <input type="text" name="BIRTHDAY" class="form-control" id="exampleFormControlInput1" placeholder="Enter BIRTHDAY">
+        </div>
+
+        <div class="form-group">
+          <label>JOINING</label>
+          <input type="text" name="JOINING" class="form-control" id="exampleFormControlInput1" placeholder="JOINING DATE">
+        </div>
+
+        <div class="form-group">
+          <label>EMAIL</label>
+          <input type="text" name="EMAIL" class="form-control" id="exampleFormControlInput1" placeholder="EMAIL">
+        </div>
+
+        <div class="form-group">
+          <label>SALARY</label>
+          <input type="text" name="SALARY" class="form-control" id="exampleFormControlInput1" placeholder="SALARY">
+        </div>
+          <button type="submit" class="btn btn-primary mb-2">Save</button>    
+    </form>  
+    </div>
+        </div>
+    </div>
+  </div> 
+          <table class="table table-striped">
+            <thread>
+            <tr>
+              <th>idemployee</th>
+              <th>NAME</th>
+              <th>BIRTHDAY</th>
+              <th>JOINING</th>
+              <th>EMAIL</th>
+              <th>SALARY</th>
+              <th>Action</th>
+            </tr>
+            </thread>
+            <tbody>
+              {% for row in value%}
+              <tr>
+                <td>{{row[0]}}</td> 
+                <td>{{row[1]}}</td>
+                <td>{{row[2]}}</td>
+                <td>{{row[3]}}</td>
+                <td>{{row[4]}}</td>
+                <td>{{row[5]}}</td>
+              <td>
+                <a href="/update/{{row[0]}}" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modaledit{{row[0]}}">Edit</a>
+                <a href="/delete/{{row[0]}}" onclick="return confirm('Are Sure Want To Deleted ?')" class="btn btn-danger btn-sm">Delete</a>
+              </td>
+              </tr>  
+               <!-- Enter New Student Modal -->
+        <div id="modaledit{{row[0]}}" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+              <div class="modal-content">
+     
+                  <div class="modal-header">
+                      <h5 class="modal-title text-primary" style="align-content: center;">Update Student Details</h5>    
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                  <div class="modal-body">
+                      <form action="{{ url_for('update')}}" method="POST">
+                          <input type="hidden" name="id" value="{{row[0]}}">
+                          <div class="form-group">
+                              <label>Name</label>
+                              <input value="{{row[1]}}" type="text" name="NAME" class="form-control" id="exampleFormControlInput1" placeholder="Enter Name">
+                          </div>
+  
+                          <div class="form-group">
+                              <label>BIRTHDAY</label>
+                              <input value="{{row[2]}}" type="datetime" name="BIRTHDAY" class="form-control" id="exampleFormControlInput1" placeholder="Enter BIRTHDAY">
+                          </div>
+  
+                          <div class="form-group">
+                              <label>JOINING</label>
+                              <input value="{{row[3]}}" name="JOINING" type="date" class="form-control" id="exampleFormControlInput1" placeholder="Enter JOINING DATE">
+                          </div>
+
+                          <div class="form-group">
+                              <label>EMAIL</label>
+                              <input value="{{row[4]}}" name="EMAIL" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Enter EMAIL">
+                          </div>
+  
+                          <div class="form-group">
+                              <label>SALARY</label>
+                              <input value="{{row[5]}}" name="SALARY" type="int" class="form-control" id="exampleFormControlInput1" placeholder="SALARY">
+                          </div>
+
+                            <button type="submit" class="btn btn-success mb-2">Update</button>
+                       
+                        </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <!-- End of Edit Student Modal -->
+              {% endfor %}
+            </tbody>
+          </table>
+              <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>    
+              <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+              <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+              <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> 
+</body>
+{% endblock %}
+
